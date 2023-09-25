@@ -1,0 +1,26 @@
+.required:after{
+content:"*";
+color:red;
+}
+.content{
+    margin:auto;
+    width:750px;
+}
+.Form{
+    border: 1px solid black;
+  align-content: center;
+  padding: 10px 0px;
+}
+form{
+    text-align:center;
+}
+.cards{
+    justify-content: center;
+}
+#card-container{
+    display:hidden;
+}
+#noOfResults{
+ text-align: center;
+ font-weight:bold;
+}
