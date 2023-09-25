@@ -1,3 +1,4 @@
+
 function ValidateData(event)
 {   event.preventDefault();
     let keywords=document.getElementById("keywords").value;
@@ -206,6 +207,45 @@ function sendRequest() {
 //         cardsContainer.innerHTML += card + leftContainer + itemImage + "</div>" + rightContainer + productName + productType + productCondition + productPrice + "</div></div>";
 //     }
 // }
+var numEntriesToShow = 3; // Initial number of entries to show
+
+function toggleCardVisibility() {
+    const entries = document.querySelectorAll('.card');
+    entries.forEach((entry, index) => {
+        if (index < numEntriesToShow) {
+            entry.style.display = 'block';
+        } else {
+            entry.style.display = 'none';
+        }
+    });
+}
+const showMoreButton = document.createElement('button');
+showMoreButton.style.display = 'block';
+showMoreButton.style.margin = 'auto';
+showMoreButton.textContent = 'Show More';
+showMoreButton.addEventListener('click', function () {
+    numEntriesToShow += 7; // Increase the number of entries to show
+    showLessButton.style.display = 'block';
+    showMoreButton.style.display = 'none';
+    toggleCardVisibility();
+    scrollToBottom();
+});
+
+const showLessButton = document.createElement('button');
+showLessButton.style.display = 'none';
+showLessButton.style.margin = 'auto';
+showLessButton.textContent = 'Show Less';
+showLessButton.addEventListener('click', function () {
+    numEntriesToShow = 3; // Reset to the initial number of entries to show
+    showLessButton.style.display = 'none';
+    showMoreButton.style.display = 'block';
+    toggleCardVisibility();
+    scrollToTop();
+});
+
+const buttonsContainer = document.createElement('div');
+buttonsContainer.appendChild(showMoreButton);
+buttonsContainer.appendChild(showLessButton);
 function putItemsinTable(jsonData) {
     const itemList = jsonData.searchResult[0].item;
     var results=jsonData.paginationOutput[0].totalEntries[0];
@@ -218,6 +258,7 @@ function putItemsinTable(jsonData) {
     
     // Loop through the itemList and create a card for each item
     for (var i = 0; i < itemList.length; i++) {
+        
         const item = itemList[i];
         
         // Create a card for each item with a border
@@ -234,10 +275,52 @@ function putItemsinTable(jsonData) {
         const productCondition = "<p class='product-condition' style='font-weight: bold;'>" + item.condition[0].conditionDisplayName[0] + "</p>";
         const productPrice = "<p class='product-price' style='font-weight: bold;'>$" + item.sellingStatus[0].currentPrice[0].__value__ + "</p>";
         
+        
+
         // Combine all elements and append to the card container
         cardsContainer.innerHTML += card + leftContainer + itemImage + "</div>" + rightContainer + productName + productType + productCondition + productPrice + "</div></div>";
+    
+         
     }
+    // const showMoreButton = document.createElement('button');
+    //     showMoreButton.style.display = 'block';
+    //     showMoreButton.style.margin = 'auto';
+    //     showMoreButton.textContent = 'Show More';
+    //     showMoreButton.addEventListener('click', function () {
+    //         numEntriesToShow += 7; // Increase the number of entries to show
+    //         showLessButton.style.display = 'block';
+    //         showMoreButton.style.display = 'none';
+    //         toggleCardVisibility();
+    //         scrollToBottom();
+    //     });
+    
+    //     const showLessButton = document.createElement('button');
+    //     showLessButton.style.display = 'none';
+    //     showLessButton.style.margin = 'auto';
+    //     showLessButton.textContent = 'Show Less';
+    //     showLessButton.addEventListener('click', function () {
+    //         numEntriesToShow = 3; // Reset to the initial number of entries to show
+    //         showLessButton.style.display = 'none';
+    //         showMoreButton.style.display = 'block';
+    //         toggleCardVisibility();
+    //         scrollToTop();
+    //     });
+    //     const buttonsContainer = document.createElement('div');
+    //     buttonsContainer.appendChild(showMoreButton);
+    //     buttonsContainer.appendChild(showLessButton);
+        cardsContainer.appendChild(buttonsContainer);
+        //toggleCardVisibility();
+        // Initially set visibility
+        const entries = document.querySelectorAll('.card');
+        entries.forEach((entry, index) => {
+            if (index < numEntriesToShow) {
+                entry.style.display = 'block';
+            } else {
+                entry.style.display = 'none';
+            }
+        });
 }
+
 function getItemDetails(itemId) {
    
 
@@ -255,6 +338,19 @@ function getItemDetails(itemId) {
     };
 
 
+}
+function scrollToBottom() {
+    const cardContainer = document.querySelector('.results');
+    if (cardContainer) {
+        cardContainer.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+}
+
+function scrollToTop() {
+    const cardsContainer = document.querySelector('.results');
+    if (cardsContainer) {
+        cardsContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 }
 // function putSingleItemInTable(itemDetails) {
 //      //make display none of results div
@@ -392,7 +488,15 @@ function backToSearchResults(){
     const cardsContainer = document.querySelector('.results');
     cardsContainer.style.display = 'block';
 }
+function changeButtonColorEnter(button) {
+    button.style.backgroundColor = 'green';
+    button.style.color = 'white';
+}
 
+function changeButtonColorLeave(button) {
+    button.style.backgroundColor = 'white'; // Restore to default background color
+    button.style.color = 'black'; // Restore to default text color
+}
 function truncateString(str, maxLength) {
     if (str.length > maxLength) {
       return str.slice(0, maxLength - 3) + '...';

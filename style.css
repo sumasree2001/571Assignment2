@@ -35,3 +35,8 @@ table, td, th {
   .singleItem{
     text-align: center;
   }
+  button{
+    background-color: white;
+    color:black;
+    border-radius: 3px;
+  }
