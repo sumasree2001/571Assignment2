@@ -4,7 +4,7 @@ color:red;
 }
 .content{
     margin:auto;
-    width:750px;
+    width:550px;
 }
 .Form{
     border: 1px solid black;
@@ -26,6 +26,7 @@ form{
 }
 table, td, th {
     border: 1px solid;
+    text-align: left;
   }
   
   table {
@@ -40,3 +41,16 @@ table, td, th {
     color:black;
     border-radius: 3px;
   }
+  option{
+    text-align: center;
+  }
+
+button:hover {
+    background-color: green;
+    color: white;
+}
+
+.results,.singleItem{
+  width:750px;
+  margin:auto;
+}

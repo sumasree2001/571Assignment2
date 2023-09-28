@@ -9,7 +9,7 @@
         <img src="https://www.csci571.com/hw/hw6/images/eBayLogo.png">
         <h1 style="display:inline-block">Shopping</h1>
         <div class="Form">
-        <form>
+        <form id="inputForm">
             <b><label class="required">Keywords</label>:</b>&emsp;
             <input type="text" id="keywords" required>
             <hr>
@@ -59,43 +59,23 @@
                 <option value="PricePlusShippingLowest">Price + Shipping: lowest first</option>
                 </select>
             <hr>
-            <button>Clear</button>
-            <button onclick="ValidateData(event)" onmouseenter="changeButtonColorEnter(this)" onmouseleave="changeButtonColorLeave()">Search</button>
+            <button type="clear" onclick="OnClearClicked(event)">Clear</button>
+            <button onmouseover="changeButtonColor(true)" onmouseout="changeButtonColor(false)" onclick="ValidateData(event)">Search</button>
+
 
 
         </form>
 
         </div>
         <br>
-        <!-- <div id="noOfResults" style="display: none;"></div> -->
-        <!-- <div class="cards" style="display: none;" >
-            <div id='card-container'>
-                <div id="card-template" style="padding:20px;border:1px solid black;margin-bottom: 2px;">
-                    <div class="card">
-                    <div class="left-container" style="display: inline-block;width: 150px;">
-                        <img src="" alt="Product Image">
-                    </div>
-                    &emsp;
-                    <span id="itemId" style="display: none;"></span>
-                    <div class="right-container" style="display: inline-block;">
-                        <p class="product-name"></p>
-                        <p class="product-type">Category: </p>
-                        <p class="product-condition">Condition: </p>
-                        <p class="product-price">Price: </p>
-                    </div>
-                    </div>
-                </div>
-            </div>
-         </div> -->
-         <div class="results" style="display:none;">
+        </div>
+        <div class="results" style="display:none;">
             <div id="noOfResults" style="display: none;"></div>
          </div>
          <div class="singleItem" style="display:none;">
             <h1>Item Details</h1>
             <button onclick="backToSearchResults()">Back to Search Results</button>
         </div>
-        </div>
-
 
     </body>
 </html>
