@@ -97,8 +97,10 @@ function toggleCardVisibility() {
 }
 
 function putItemsinTable(jsonData) {
-    const itemList = jsonData.searchResult[0].item;
-    var results=jsonData.paginationOutput[0].totalEntries[0];
+    // const itemList = jsonData.searchResult[0].item;
+    console.log(jsonData);
+    var results=jsonData.totalEntries;
+    const itemList = jsonData.items;
     // document.getElementById("noOfResults").style.display="block";
     var searchData=sendRequest();
     const TableContainer = document.querySelector('.singleItem');
@@ -118,23 +120,33 @@ function putItemsinTable(jsonData) {
         const item = itemList[i];
         
         // Create a card for each item with a border
-        const card = "<div class='card' style='padding: 20px; border: 1px solid black; margin-bottom: 2px;'onclick='getItemDetails(" + item.itemId + ");'>";
+        const card = "<div class='card' style='padding: 20px; border: 1px solid black; margin-bottom: 2px;background-color:	#F0F0F0;'onclick='getItemDetails(" + item.itemId + ");'>";
         
         // Create left container for the item image
         const leftContainer = "<div class='left-container' style='width: 150px; display: inline-block;'>";
-        const itemImage = "<img src='" + item.galleryURL[0] + "' style='width: 100px; height: 100px;'>";
+        const itemImage = "<img src='" + item.galleryURL + "'class='item-image' style='width: 100px; height: 100px;border: 4px solid lightgrey'>";
         
         // Create right container for item details
         const rightContainer = "<div class='right-container' style='display: inline-block;'>";
-        const productName = "<p class='product-name' style='font-weight: bold;'>" + truncateString(item.title[0], 61) + "</p>";
-        const productType = "<p class='product-type' style='font-weight: bold;'>" + item.primaryCategory[0].categoryName[0] + "</p>";
-        const productCondition = "<p class='product-condition' style='font-weight: bold;'>" + item.condition[0].conditionDisplayName[0] + "</p>";
-        const productPrice = "<p class='product-price' style='font-weight: bold;'>$" + item.sellingStatus[0].currentPrice[0].__value__ + "</p>";
+        // const productName = "<p class='product-name' style='font-weight: bold;'>" + truncateString(item.title, 61) + "</p>";
+        // const productType = "<p class='product-type' style='font-weight: bold;'>" + item.categoryName + "</p>";
+        // const productCondition = "<p class='product-condition' style='font-weight: bold;'>" + item.conditionDisplayName + "</p>";
+        // const productPrice = "<p class='product-price' style='font-weight: bold;'>$" + item.currentPrice + "</p>";
         
+        const redirectImageLink = "<a href='" + item.viewItemURL + "' target='_blank'><img src='https://www.csci571.com/hw/hw6/images/redirect.png' alt='Redirect' style='margin-left: 10px; vertical-align: middle;'></a>";
+        const productName = "<p class='product-name truncate-text' style='font-weight: bold;'>" + item.title + "</p>";
+        const productType = "<p class='product-type'>Category: " + item.categoryName + redirectImageLink + "</p>";
+
+        const topRatedImage = item.topRatedListing ? "<img src='https://www.csci571.com/hw/hw6/images/topRatedImage.png' alt='Top Rated' style='margin-left: 10px; vertical-align: middle;'>" : "";
+        const productCondition = "<p class='product-condition'>Condition: " + item.conditionDisplayName + topRatedImage + "</p>";
+
+        const productPrice = "<p class='product-price' style='font-weight: bold;'>Price: $" + item.currentPrice + "</p>";
+
+        cardsContainer.innerHTML += card + leftContainer + itemImage + "</div>" + rightContainer + productName + productType + productCondition + productPrice + "</div></div>";
         
 
         // Combine all elements and append to the card container
-        cardsContainer.innerHTML += card + leftContainer + itemImage + "</div>" + rightContainer + productName + productType + productCondition + productPrice + "</div></div>";
+        // cardsContainer.innerHTML += card + leftContainer + itemImage + "</div>" + rightContainer + productName + productType + productCondition + productPrice + "</div></div>";
     
          
     }
@@ -261,20 +273,34 @@ function putSingleItemInTable(itemDetails) {
     createTableRowWithCells('eBay Link', link);
 
     // for Title
-    createTableRowWithCells('Title', itemDetails.Title);
-
+    if (itemDetails.Title) { 
+        createTableRowWithCells('Title', itemDetails.Title);
+    }
+    if(itemDetails.Subtitle){
+        createTableRowWithCells('Subtitle', itemDetails.Subtitle);
+    }
+    if(itemDetails.CurrentPrice){
+        createTableRowWithCells('Price', itemDetails.CurrentPrice.Value + " "+itemDetails.CurrentPrice.CurrencyID);
+    }
     // for Price
-    createTableRowWithCells('Price', itemDetails.CurrentPrice.Value + " "+itemDetails.CurrentPrice.CurrencyID);
-
+   
     // for Location
-    createTableRowWithCells('Location', itemDetails.Location);
+    if(itemDetails.Location){
+        createTableRowWithCells('Location', itemDetails.Location + ', ' + itemDetails.PostalCode);
+    }
 
     // for Seller
-    createTableRowWithCells('Seller', itemDetails.Seller.UserID);
+    if(itemDetails.Seller){
+        createTableRowWithCells('Seller', itemDetails.Seller.UserID);
+    }
 
     // for Return Policy
-    createTableRowWithCells('Return Policy(US)', itemDetails.ReturnPolicy.ReturnsAccepted + ' within ' + itemDetails.ReturnPolicy.ReturnsWithin);
-
+    if(itemDetails.ReturnPolicy && itemDetails.ReturnPolicy.ReturnsAccepted && itemDetails.ReturnPolicy.ReturnsWithin){
+        createTableRowWithCells('Return Policy(US)', itemDetails.ReturnPolicy.ReturnsAccepted + ' within ' + itemDetails.ReturnPolicy.ReturnsWithin);
+    }
+    else if (itemDetails.ReturnPolicy && itemDetails.ReturnPolicy.ReturnsAccepted) {
+    createTableRowWithCells('Return Policy(US)', itemDetails.ReturnPolicy.ReturnsAccepted );
+    }
     // Extract Name Value Pairs
     const Specifics = itemDetails.ItemSpecifics.NameValueList;
     for (let i = 0; i < Specifics.length; i++) {
