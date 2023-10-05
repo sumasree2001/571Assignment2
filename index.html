@@ -2,22 +2,23 @@
 <html>
     <head>
         <link href="./style.css" rel="stylesheet" type="text/css" />
+        <title>Homework 6</title>
         <script src="script.js"></script>
     </head>
     <body>
         <div class="content">
-        <img src="https://www.csci571.com/hw/hw6/images/eBayLogo.png">
-        <h1 style="display:inline-block">Shopping</h1>
+            <a href="https://www.ebay.com/"  target="_blank"><img src="https://csci571.com/hw/hw6/images/eBayLogo.png"  style="vertical-align: middle; width: 200px; height: 100px;margin-left:110px;"></a>
+            <h1 style="display:inline-block; vertical-align: middle;">Shopping</h1>
         <div class="Form">
         <form id="inputForm">
             <b><label class="required">Keywords</label>:</b>
             <input type="text" id="keywords" required>
             <hr>
             <label><b>Price Range:</b></label>
-            <label>From</label>
-            <input type="text" id="priceFrom" value="">
-            <label>To</label>
-            <input type="text" id="priceTo" value="">
+            <label style="margin-left: 5px;">From</label>
+            <input type="number" id="priceFrom" value="" style="width:60px;margin-left: 5px;">
+            <label  style="margin-left: 5px;">To</label>
+            <input type="number" id="priceTo" value="" style="width:60px;margin-left:5px">
             <hr>
             <label><b>Conditions:</b></label>
             <input type="checkbox" id="new" name="condition" value="1000">
@@ -69,11 +70,11 @@
         <br>
         </div>
         <div class="results" style="display:none;">
-            <div id="noOfResults" style="display: none;"></div>
+            <h1 id="noOfResults" style="display: none;"></h1>
          </div>
          <div class="singleItem" style="display:none;">
-            <h1>Item Details</h1>
-            <button onclick="backToSearchResults()">Back to Search Results</button>
+            <h1 style="margin-bottom:5px;">Item Details</h1>
+            <button onclick="backToSearchResults()" style="margin-bottom: 5px;">Back to Search Results</button>
         </div>
 
     </body>
